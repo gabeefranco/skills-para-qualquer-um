@@ -1,0 +1,18 @@
+name: Publicar release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/gerar.py zips
+      - run: gh release create "$GITHUB_REF_NAME" dist/*.zip --verify-tag --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}

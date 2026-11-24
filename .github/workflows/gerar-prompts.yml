@@ -1,0 +1,31 @@
+name: Gerar prompts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "skills/*/SKILL.md"
+      - "scripts/gerar.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gerar-prompts
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - run: python3 scripts/gerar.py prompts
+      - name: Fazer commit se algo mudou
+        run: |
+          git add prompts
+          git diff --cached --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Atualiza prompts a partir das skills"
+          git push
