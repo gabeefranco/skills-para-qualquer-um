@@ -63,6 +63,11 @@ class TestGerar(unittest.TestCase):
         prompt = gerar.gerar_prompt(self.skills[0]).read_text(encoding="utf-8")
         self.assertEqual(prompt, "Corpo de alfa.\n\nMinha ideia: [descreva aqui]\n")
 
+    def test_prompt_com_entrada(self):
+        skill = self.criar_skill("gama", "metadata:\n  autor: alguém\n  entrada: Assunto\n")
+        prompt = gerar.gerar_prompt(skill).read_text(encoding="utf-8")
+        self.assertTrue(prompt.endswith("\n\nAssunto: [descreva aqui]\n"))
+
 
 if __name__ == "__main__":
     unittest.main()

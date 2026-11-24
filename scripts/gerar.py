@@ -5,6 +5,7 @@ Uso: python3 scripts/gerar.py prompts|zips
 """
 
 import json
+import re
 import sys
 import zipfile
 from pathlib import Path
@@ -39,10 +40,12 @@ def frontmatter_padrao(frontmatter):
 
 
 def gerar_prompt(skill):
-    _, corpo = separar(skill)
+    frontmatter, corpo = separar(skill)
+    campo = re.search(r"^metadata:\n(?:[ ]+.*\n)*?[ ]+entrada: *(.+)$", frontmatter, re.MULTILINE)
+    entrada = campo[1].strip() if campo else "Minha ideia"
     destino = RAIZ / "prompts" / f"{skill.name}.md"
     destino.parent.mkdir(exist_ok=True)
-    destino.write_text(f"{corpo}\n\nMinha ideia: [descreva aqui]\n", encoding="utf-8")
+    destino.write_text(f"{corpo}\n\n{entrada}: [descreva aqui]\n", encoding="utf-8")
     return destino
 
 

@@ -1,0 +1,5 @@
+interface:
+  display_name: "Quanto Você Sabe"
+  short_description: "Mede o quanto a IA sabe sobre um assunto seu"
+policy:
+  allow_implicit_invocation: false
