@@ -1,4 +1,4 @@
-# Skills pra qualquer um
+# Skills para qualquer um
 
 Skills de IA em português do Brasil, para agentes de código e para o Claude e o ChatGPT no navegador.
 
@@ -13,6 +13,16 @@ Skills de IA em português do Brasil, para agentes de código e para o Claude e 
 ### Qualquer chat, sem instalar nada
 
 Abra [`prompts/me-questione.md`](prompts/me-questione.md), copie o conteúdo, cole no chat e troque `[descreva aqui]` pela sua ideia. Serve para ChatGPT, Claude, Gemini e outros, em qualquer plano.
+
+### Todas as skills de uma vez
+
+O `todas-as-skills.zip`, na página **Releases**, reúne todas as skills em um plugin do Claude:
+
+- **Claude no navegador (planos pagos):** em **Customize > Plugins**, clique em **Add**, depois em **Upload plugin**, e envie o ZIP sem descompactar. Ative também a execução de código.
+- **Claude Code:** `claude --plugin-dir todas-as-skills.zip` carrega o plugin só naquela sessão. As skills são chamadas com o prefixo do plugin: `/skills-para-qualquer-um:me-questione`.
+- **Outros agentes:** descompacte e copie as pastas que estão em `skills/` para o diretório de skills do agente.
+
+A importação desse ZIP no ChatGPT não foi confirmada. Lá, e no Claude gratuito, use os ZIPs individuais ou os prompts.
 
 ### Claude no navegador
 
@@ -44,10 +54,12 @@ Para gerar tudo localmente (Python 3, sem dependências):
 
 ```bash
 python3 scripts/gerar.py prompts
-python3 scripts/gerar.py zips     # salva em dist/
+python3 scripts/gerar.py zips     # salva em dist/: um ZIP por skill e o todas-as-skills.zip
 ```
 
-O ZIP leva só os campos de frontmatter que o Claude web aceita; por isso, não inclui o `disable-model-invocation`, usado no Claude Code.
+Os ZIPs levam só os campos de frontmatter que o Claude web aceita; por isso, não incluem o `disable-model-invocation`, usado no Claude Code.
+
+Os testes ficam em [`tests/`](tests/README.md) e rodam a cada push e pull request. A release só é publicada se passarem.
 
 Para publicar uma versão com os ZIPs em Releases:
 
