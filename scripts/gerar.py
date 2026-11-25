@@ -15,7 +15,7 @@ RAIZ = Path(__file__).resolve().parent.parent
 CAMPOS_PADRAO = {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
 PLUGIN = {
     "name": "skills-para-qualquer-um",
-    "description": "Skills de IA em português do Brasil, para qualquer um.",
+    "description": "Fluxos de trabalho avançados, simplificados para qualquer um conseguir usar.",
     "author": {"name": "Gabriel Franco"},
     "license": "MIT",
 }
