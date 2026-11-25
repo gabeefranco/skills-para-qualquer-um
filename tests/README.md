@@ -11,4 +11,5 @@ Os testes do repositório ficam na raiz desta pasta; os de cada skill, em `tests
 | Teste | O que cobre |
 | --- | --- |
 | [`test_gerar.py`](test_gerar.py) | ZIPs individuais, ZIP único e prompts gerados por `scripts/gerar.py`. |
+| [`criar-contexto/`](criar-contexto/README.md) | Ligação com as outras skills e simulações da skill `criar-contexto`. |
 | [`quanto-voce-sabe/`](quanto-voce-sabe/README.md) | Fórmula da quantidade e simulações da skill `quanto-voce-sabe`. |

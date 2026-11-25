@@ -6,8 +6,11 @@ Skills de IA em português do Brasil, para agentes de código e para o Claude e 
 
 | Skill | O que faz |
 | --- | --- |
-| [`me-questione`](skills/me-questione/SKILL.md) | Entrevista você, rodada por rodada, até seu plano, decisão ou ideia ficar bem definido. Só roda quando você chama. |
-| [`quanto-voce-sabe`](skills/quanto-voce-sabe/SKILL.md) | Mede, de 0 a 10, a quantidade e a profundidade do que a IA sabe sobre um assunto seu e sugere o que informar. Só roda quando você chama. |
+| [`me-questione`](skills/me-questione/SKILL.md) | Entrevista você, rodada por rodada, até seu plano, decisão ou ideia ficar bem definido. Só roda quando você ou a `criar-contexto` chama. |
+| [`quanto-voce-sabe`](skills/quanto-voce-sabe/SKILL.md) | Mede, de 0 a 10, a quantidade e a profundidade do que a IA sabe sobre um assunto seu e sugere o que informar. Só roda quando você ou a `criar-contexto` chama. |
+| [`criar-contexto`](skills/criar-contexto/SKILL.md) | Entrevista você até a IA saber muito sobre um assunto seu e entrega um arquivo Markdown para usar como contexto, por exemplo em um projeto do Claude. Só roda quando você chama. |
+
+A `criar-contexto` usa as outras duas: instale as três. O prompt dela já vem completo.
 
 ## Como usar
 
@@ -30,7 +33,7 @@ A importação desse ZIP no ChatGPT não foi confirmada. Lá, e no Claude gratui
 1. Baixe o ZIP da skill, como `me-questione.zip`, da página **Releases** deste repositório. Não descompacte.
 2. Em **Settings > Capabilities**, ative a execução de código e criação de arquivos.
 3. Em **Customize > Skills**, clique em **+**, depois em **Create skill** e **Upload a skill**, e envie o ZIP.
-4. No chat, escreva: `use a skill me-questione para avaliar esta ideia: ...` ou `use a skill quanto-voce-sabe sobre ...`
+4. No chat, escreva: `use a skill me-questione para avaliar esta ideia: ...`, `use a skill quanto-voce-sabe sobre ...` ou `use a skill criar-contexto sobre ...`
 
 ### ChatGPT no navegador
 
@@ -42,8 +45,8 @@ Copie a pasta da skill, como `skills/me-questione`, para o diretório de skills 
 
 | Agente | Diretório pessoal | Como chamar |
 | --- | --- | --- |
-| Claude Code | `~/.claude/skills/` | `/me-questione`, `/quanto-voce-sabe` |
-| Codex | `~/.agents/skills/` | `$me-questione`, `$quanto-voce-sabe` |
+| Claude Code | `~/.claude/skills/` | `/me-questione`, `/quanto-voce-sabe`, `/criar-contexto` |
+| Codex | `~/.agents/skills/` | `$me-questione`, `$quanto-voce-sabe`, `$criar-contexto` |
 
 Outros agentes compatíveis com [Agent Skills](https://agentskills.io) costumam ler `.agents/skills/` no projeto; confira a documentação do seu. Se o agente não aceitar skills, use o prompt.
 
@@ -51,7 +54,7 @@ Outros agentes compatíveis com [Agent Skills](https://agentskills.io) costumam 
 
 Edite somente `skills/<nome>/SKILL.md`; os prompts são gerados a partir dele. A cada push na `main` que altere uma skill, uma GitHub Action atualiza `prompts/`.
 
-O prompt termina com `Minha ideia: [descreva aqui]`. Para trocar o rótulo, defina `entrada` em `metadata`, no frontmatter da skill.
+O prompt termina com `Minha ideia: [descreva aqui]`. Para trocar o rótulo, defina `entrada` em `metadata`, no frontmatter da skill. Se a skill usa outras, liste-as em `inclui`, separadas por vírgula, para que o prompt leve junto as instruções delas.
 
 Para gerar tudo localmente (Python 3, sem dependências):
 
@@ -60,7 +63,7 @@ python3 scripts/gerar.py prompts
 python3 scripts/gerar.py zips     # salva em dist/: um ZIP por skill e o todas-as-skills.zip
 ```
 
-Os ZIPs levam só os campos de frontmatter que o Claude web aceita; por isso, não incluem o `disable-model-invocation`, usado no Claude Code.
+Os ZIPs levam só os campos de frontmatter que o Claude web aceita; por isso, não incluem o `disable-model-invocation`, usado no Claude Code. Esse campo fica de fora da `me-questione` e da `quanto-voce-sabe`, porque impediria a `criar-contexto` de chamá-las.
 
 Os testes ficam em [`tests/`](tests/README.md) e rodam a cada push e pull request. A release só é publicada se passarem.
 
@@ -73,4 +76,4 @@ git push origin v1.0.0
 
 ## Créditos e licença
 
-`me-questione` é uma tradução e adaptação de `grill-me` e `grilling`, do repositório [mattpocock/skills](https://github.com/mattpocock/skills), de Matt Pocock. As duas foram unidas em uma só. `quanto-voce-sabe` é original. Licença [MIT](LICENSE).
+`me-questione` é uma tradução e adaptação de `grill-me` e `grilling`, do repositório [mattpocock/skills](https://github.com/mattpocock/skills), de Matt Pocock. As duas foram unidas em uma só. `quanto-voce-sabe` e `criar-contexto` são originais. Licença [MIT](LICENSE).

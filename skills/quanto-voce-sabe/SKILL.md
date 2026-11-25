@@ -1,10 +1,9 @@
 ---
 name: quanto-voce-sabe
-description: Mede a quantidade e a profundidade do que o agente sabe sobre um assunto. Use somente quando o usuário pedir explicitamente a skill quanto-voce-sabe.
+description: Mede a quantidade e a profundidade do que o agente sabe sobre um assunto. Use somente quando o usuário pedir explicitamente a skill quanto-voce-sabe ou quando a skill criar-contexto a chamar.
 license: MIT
 metadata:
   entrada: Assunto
-disable-model-invocation: true
 ---
 
 Meça o quanto você sabe sobre o assunto indicado pelo usuário, em duas notas de 0 a 10: **quantidade** e **profundidade**. Se ele não indicar o assunto, pergunte qual é e espere a resposta.

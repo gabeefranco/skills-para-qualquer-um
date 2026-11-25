@@ -2,4 +2,4 @@ interface:
   display_name: "Me Questione"
   short_description: "Uma entrevista para lapidar seu plano ou ideia"
 policy:
-  allow_implicit_invocation: false
+  allow_implicit_invocation: true

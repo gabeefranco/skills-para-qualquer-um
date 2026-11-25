@@ -1,0 +1,5 @@
+interface:
+  display_name: "Criar Contexto"
+  short_description: "Entrevista você e gera um arquivo de contexto"
+policy:
+  allow_implicit_invocation: false

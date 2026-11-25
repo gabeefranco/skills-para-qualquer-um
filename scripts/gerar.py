@@ -39,13 +39,26 @@ def frontmatter_padrao(frontmatter):
     return "\n".join(linhas) + "\n"
 
 
+def metadado(frontmatter, nome):
+    campo = re.search(rf"^metadata:\n(?:[ ]+.*\n)*?[ ]+{nome}: *(.+)$", frontmatter, re.MULTILINE)
+    return campo[1].strip() if campo else None
+
+
 def gerar_prompt(skill):
     frontmatter, corpo = separar(skill)
-    campo = re.search(r"^metadata:\n(?:[ ]+.*\n)*?[ ]+entrada: *(.+)$", frontmatter, re.MULTILINE)
-    entrada = campo[1].strip() if campo else "Minha ideia"
+    entrada = metadado(frontmatter, "entrada") or "Minha ideia"
+    partes = [corpo]
+    # O prompt é colado em um chat sem skills, então leva junto as que ele usa.
+    for nome in (metadado(frontmatter, "inclui") or "").split(","):
+        if nome.strip():
+            _, incluido = separar(skill.parent / nome.strip())
+            partes.append(f"---\n\n# Instruções da skill {nome.strip()}\n\n{incluido}")
+    if len(partes) > 1:
+        partes.append("---")
+    partes.append(f"{entrada}: [descreva aqui]")
     destino = RAIZ / "prompts" / f"{skill.name}.md"
     destino.parent.mkdir(exist_ok=True)
-    destino.write_text(f"{corpo}\n\n{entrada}: [descreva aqui]\n", encoding="utf-8")
+    destino.write_text("\n\n".join(partes) + "\n", encoding="utf-8")
     return destino
 
 

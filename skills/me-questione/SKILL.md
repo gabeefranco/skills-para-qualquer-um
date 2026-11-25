@@ -1,8 +1,7 @@
 ---
 name: me-questione
-description: Entrevista implacável para lapidar um plano, decisão ou ideia. Use somente quando o usuário pedir explicitamente a skill me-questione.
+description: Entrevista implacável para lapidar um plano, decisão ou ideia. Use somente quando o usuário pedir explicitamente a skill me-questione ou quando a skill criar-contexto a chamar.
 license: MIT
-disable-model-invocation: true
 ---
 
 Entreviste o usuário de forma implacável até vocês chegarem a um entendimento comum. Mapeie o assunto como uma **árvore de decisões**: cada decisão se ramifica nas decisões que dependem dela.

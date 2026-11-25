@@ -68,6 +68,22 @@ class TestGerar(unittest.TestCase):
         prompt = gerar.gerar_prompt(skill).read_text(encoding="utf-8")
         self.assertTrue(prompt.endswith("\n\nAssunto: [descreva aqui]\n"))
 
+    def test_prompt_com_skills_incluidas(self):
+        skill = self.criar_skill("gama", "metadata:\n  entrada: Assunto\n  inclui: alfa, beta\n")
+        prompt = gerar.gerar_prompt(skill).read_text(encoding="utf-8")
+        self.assertEqual(
+            prompt,
+            "Corpo de gama.\n\n"
+            "---\n\n# Instruções da skill alfa\n\nCorpo de alfa.\n\n"
+            "---\n\n# Instruções da skill beta\n\nCorpo de beta.\n\n"
+            "---\n\nAssunto: [descreva aqui]\n",
+        )
+
+    def test_prompt_com_skill_incluida_inexistente(self):
+        skill = self.criar_skill("gama", "metadata:\n  inclui: nao-existe\n")
+        with self.assertRaises(FileNotFoundError):
+            gerar.gerar_prompt(skill)
+
 
 if __name__ == "__main__":
     unittest.main()
